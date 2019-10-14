@@ -1,4 +1,5 @@
 import pygame, sys, random
+import json
 from time import sleep
 from bullet import Bullet
 from alien import Alien, Alien1, Alien2, Alien3
@@ -10,9 +11,6 @@ from pygame.sprite import Group
 
 
 def check_keydown_events(event, ai_settings, screen, ship, bullets):
-    # sounds for bullets
-    shoot = pygame.mixer.Sound('sounds/laser.wav')
-
     """ Respond to keypresses """
     if event.key == pygame.K_RIGHT:
         ship.moving_right = True
@@ -20,7 +18,6 @@ def check_keydown_events(event, ai_settings, screen, ship, bullets):
         ship.moving_left = True
     elif event.key == pygame.K_SPACE:
         fire_bullet(ai_settings=ai_settings, screen=screen, ship=ship, bullets=bullets)
-        shoot.play()
     elif event.key == pygame.K_q:
         sys.exit()
 
@@ -145,6 +142,7 @@ def check_bullet_alien_collisions(ai_settings, screen, stats, sb, ship, alien1, 
         # If entire fleet is destroyed, start new level
         # Destroy existing bullets, speed up game, and create new fleet
         bullets.empty()
+        ufo.empty()
         ai_settings.increase_speed()
 
         # Increase level
@@ -280,7 +278,7 @@ def create_bunker_row(ai_settings, screen, bunkers):
 
 
 def create_ufo(ai_settings, screen, ufo):
-    interval = random.randint(0, 200)
+    interval = random.randint(0, 500)
     if interval == 10:
         ufo_random = UFO(ai_settings=ai_settings, screen=screen)
         if len(ufo) < 1:
@@ -289,11 +287,14 @@ def create_ufo(ai_settings, screen, ufo):
 
 def fire_bullet(ai_settings, screen, ship, bullets):
     """ Fire a bullet if limit not reached """
+    # sounds for bullets
+    shoot = pygame.mixer.Sound('sounds/laser.wav')
+
     # Create a new bullet and add it to the bullets group
     if len(bullets) < ai_settings.bullets_allowed:
         new_bullet = Bullet(ai_settings=ai_settings, screen=screen, ship=ship)
         bullets.add(new_bullet)
-
+        shoot.play()
 
 def get_number_aliens_x(ai_settings, alien_width):
     """ Determine the number of aliens that fit in a row """
@@ -317,7 +318,7 @@ def get_number_rows(ai_settings, ship_height, alien_height):
     return number_rows
 
 
-def ship_hit(ai_settings, screen, stats, sb, ship, alien1, alien2, alien3, bullets, music_playing):
+def ship_hit(ai_settings, screen, stats, sb, ship, alien1, alien2, alien3, bullets, bunkers, ufo, music_playing):
     """ Respond to ship being hit by alien """
     explosion = pygame.mixer.Sound('sounds/explosion.wav')
     pygame.mixer.music.stop()
@@ -333,17 +334,18 @@ def ship_hit(ai_settings, screen, stats, sb, ship, alien1, alien2, alien3, bulle
         alien1.empty()
         alien2.empty()
         alien3.empty()
+        ufo.empty()
         bullets.empty()
 
         # Create a new fleet and center the ship
         create_fleet(ai_settings=ai_settings, screen=screen, ship=ship, alien1=alien1, alien2=alien2, alien3=alien3)
+        create_bunker_row(ai_settings=ai_settings, screen=screen, bunkers=bunkers)
         ship.center_ship()
 
         # Pause
         explosion.play()
-        ship.ship_explosion()
         sleep(1.0)
-        pygame.mixer.music.play()
+        pygame.mixer.music.play(-1, 0.0)
     else:
         stats.game_active = False
         pygame.mouse.set_visible(True)
@@ -397,7 +399,7 @@ def update_bullets(ai_settings, screen, stats, sb, ship, alien1, alien2, alien3,
                                   alien1=alien1, alien2=alien2, alien3=alien3, bullets=bullets, bunkers=bunkers, ufo=ufo)
 
 
-def update_aliens(ai_settings, screen, stats, sb, ship, alien1, alien2, alien3, ufo, bullets, music_playing):
+def update_aliens(ai_settings, screen, stats, sb, ship, alien1, alien2, alien3, ufo, bullets, bunkers, music_playing):
     """ Check if the fleet is at an edge,
         and then update the positions of all aliens in the fleet """
     check_fleet_edges(ai_settings=ai_settings, alien1=alien1, alien2=alien2, alien3=alien3)
@@ -413,14 +415,14 @@ def update_aliens(ai_settings, screen, stats, sb, ship, alien1, alien2, alien3, 
 
     # Look for alien-ship collisions
     if pygame.sprite.spritecollideany(ship, alien1):
-        ship_hit(ai_settings=ai_settings, screen=screen, stats=stats, sb=sb, ship=ship,
-                 alien1=alien1, alien2=alien2, alien3=alien3, bullets=bullets, music_playing=music_playing)
+        ship_hit(ai_settings=ai_settings, screen=screen, stats=stats, sb=sb, ship=ship, bunkers=bunkers,
+                 alien1=alien1, alien2=alien2, alien3=alien3, bullets=bullets, ufo=ufo, music_playing=music_playing)
     if pygame.sprite.spritecollideany(ship, alien2):
-        ship_hit(ai_settings=ai_settings, screen=screen, stats=stats, sb=sb, ship=ship,
-                 alien1=alien1, alien2=alien2, alien3=alien3, bullets=bullets, music_playing=music_playing)
+        ship_hit(ai_settings=ai_settings, screen=screen, stats=stats, sb=sb, ship=ship, bunkers=bunkers,
+                 alien1=alien1, alien2=alien2, alien3=alien3, bullets=bullets, ufo=ufo, music_playing=music_playing)
     if pygame.sprite.spritecollideany(ship, alien3):
-        ship_hit(ai_settings=ai_settings, screen=screen, stats=stats, sb=sb, ship=ship,
-                 alien1=alien1, alien2=alien2, alien3=alien3, bullets=bullets, music_playing=music_playing)
+        ship_hit(ai_settings=ai_settings, screen=screen, stats=stats, sb=sb, ship=ship, bunkers=bunkers,
+                 alien1=alien1, alien2=alien2, alien3=alien3, bullets=bullets, ufo=ufo, music_playing=music_playing)
 
     # Look for aliens hitting the bottom of the screen
     check_aliens_bottom(ai_settings=ai_settings, screen=screen, stats=stats, sb=sb, ship=ship,

@@ -1,32 +1,32 @@
 [
+  { "name" : "JHF",
+    "score": 52840
+  },
+  { "name" : "JOS",
+    "score": 51920
+  },
   { "name" : "ABC",
-    "score": 12840
-  },
-  { "name" : "DEF",
-    "score": 10920
-  },
-  { "name" : "GHI",
-    "score": 8310
+    "score": 48310
   },
   { "name" : "JKL",
-    "score": 7410
+    "score": 47410
   },
-  { "name" : "MNO",
-    "score": 6120
+  { "name" : "TMZ",
+    "score": 46120
   },
-  { "name" : "PQR",
-    "score": 6010
+  { "name" : "HBO",
+    "score": 46010
   },
   { "name" : "STU",
-    "score": 4140
+    "score": 44140
   },
-  { "name" : "VWX",
-    "score": 3840
+  { "name" : "LUV",
+    "score": 43840
   },
   { "name" : "YZ0",
-    "score": 3780
+    "score": 43200
   },
-  { "name" : "123",
-    "score": 3520
+  { "name" : "AAA",
+    "score": 42100
   }
 ]

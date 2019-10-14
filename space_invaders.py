@@ -62,7 +62,7 @@ def run_game():
                               bullets=bullets, bunkers=bunkers, ufo=ufo)
             gf.update_aliens(ai_settings=ai_settings, screen=screen, stats=stats, sb=sb,
                              ship=ship, alien1=alien1, alien2=alien2, alien3=alien3,
-                             ufo=ufo, bullets=bullets, music_playing=music_playing)
+                             ufo=ufo, bullets=bullets, bunkers=bunkers, music_playing=music_playing)
 
         gf.update_screen(ai_settings=ai_settings, screen=screen, stats=stats, sb=sb, ship=ship,
                          bunkers=bunkers, alien1=alien1, alien2=alien2, alien3=alien3, ufo=ufo,

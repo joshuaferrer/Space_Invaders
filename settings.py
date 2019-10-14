@@ -15,13 +15,13 @@ class Settings:
         self.bullet_width = 15
         self.bullet_height = 30
         self.bullet_color = 60, 60, 60
-        self.bullets_allowed = 10
+        self.bullets_allowed = 5
 
         # Alien settings
-        self.fleet_drop_speed = 10
+        self.fleet_drop_speed = 20
 
         # How quickly the game speeds up
-        self.speedup_scale = 1.1
+        self.speedup_scale = 1.15
         # How quickly the alien point values increase
         self.score_scale = 1.5
 

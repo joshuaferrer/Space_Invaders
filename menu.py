@@ -101,7 +101,8 @@ class Menu:
 
 
     def get_high_scores(self):
-        with open('high_scores.json') as file:
+        with open('high_scores.json', 'r') as file:
             scores = json.load(file)
+        file.close()
         return scores
 
