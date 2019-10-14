@@ -16,7 +16,6 @@ class Bunker(Sprite):
         self.image = pygame.transform.scale(pygame.image.load('images/bunker.png'), (120, 120))
         self.rect = self.image.get_rect()
 
-
     def blitme(self):
         """ Draw the bunker at its current location """
         self.screen.blit(self.image, self.rect)

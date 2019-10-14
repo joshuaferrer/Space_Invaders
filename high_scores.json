@@ -1,0 +1,32 @@
+[
+  { "name" : "ABC",
+    "score": 12840
+  },
+  { "name" : "DEF",
+    "score": 10920
+  },
+  { "name" : "GHI",
+    "score": 8310
+  },
+  { "name" : "JKL",
+    "score": 7410
+  },
+  { "name" : "MNO",
+    "score": 6120
+  },
+  { "name" : "PQR",
+    "score": 6010
+  },
+  { "name" : "STU",
+    "score": 4140
+  },
+  { "name" : "VWX",
+    "score": 3840
+  },
+  { "name" : "YZ0",
+    "score": 3780
+  },
+  { "name" : "123",
+    "score": 3520
+  }
+]

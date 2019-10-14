@@ -63,6 +63,12 @@ class Menu:
 
     def draw_high_scores(self):
         self.screen.fill(self.bg_color)
+        scores_height = 150
+        number = 1
+
+        # play button and back to home screen
+        play_button = Back(self.ai_settings, self.screen, "Back to Home")
+        play_button.draw_button()
 
         # Display Header
         header = self.header_font.render("High Scores", True, (255, 255, 255), (20, 20, 20))
@@ -72,23 +78,30 @@ class Menu:
         header_rect.centery = 90
         self.screen.blit(header, header_rect)
 
-        # play button and back to home screen
-        play_button = Back(self.ai_settings, self.screen, "Back to Home")
-        play_button.draw_button()
-
         # Display scores saved from JSON file
-        scores = self.get_high_scores()
-        scores_y = 150
-        for key in range(len(scores)):
-            display_scores = self.body_font.render(json.dumps(scores[key]), True, (255, 0, 0), (20, 20, 20))
+        high_scores = self.get_high_scores()
+        for score in high_scores:
+            display_names = self.body_font.render(json.dumps(score["name"]), True, (255, 0, 0), (20, 20, 20))
+            display_scores = self.body_font.render(json.dumps(score["score"]), True, (255, 0, 0), (20, 20, 20))
+            display_number = self.body_font.render(str(number) + '.', True, (255, 255, 255), (20, 20, 20))
+            names_rect = display_names.get_rect()
             scores_rect = display_scores.get_rect()
-            scores_rect.centerx = screen_rect.centerx
-            scores_rect.centery = scores_y
-            scores_y += 55
+            number_rect = display_number.get_rect()
+            names_rect.centerx = screen_rect.centerx - 100
+            scores_rect.centerx = screen_rect.centerx + 100
+            number_rect.centerx = screen_rect.centerx - 225
+            names_rect.centery = scores_height
+            scores_rect.centery = scores_height
+            number_rect.centery = scores_height
+            scores_height += 55
+            number += 1
+            self.screen.blit(display_names, names_rect)
             self.screen.blit(display_scores, scores_rect)
+            self.screen.blit(display_number, number_rect)
+
 
     def get_high_scores(self):
-        with open('high_scores') as file:
+        with open('high_scores.json') as file:
             scores = json.load(file)
         return scores
 

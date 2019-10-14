@@ -1,5 +1,6 @@
 import pygame
 from pygame.sprite import Sprite
+from timer import Timer
 
 
 class Ship(Sprite):
@@ -57,6 +58,8 @@ class Ship(Sprite):
         self.images.append(pygame.transform.scale(pygame.image.load('images/spaceship_explosion5.png'), (50, 50)))
         self.images.append(pygame.transform.scale(pygame.image.load('images/spaceship_explosion6.png'), (50, 50)))
 
+        ship_explosion = Timer(frames=self.images, looponce=True)
+
         # Increment counter to only update index every 10 ticks, then
         # Increment index for alien image list. If index larger than list, index back to 0
         self.counter += 1
@@ -67,4 +70,4 @@ class Ship(Sprite):
         if self.index >= len(self.images):
             self.index = 0
             self.image = self.images[self.index]
-            self.screen.blit(self.images[self.index], self.rect)
+        self.screen.blit(self.image, self.rect)

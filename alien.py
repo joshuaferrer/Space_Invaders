@@ -1,6 +1,5 @@
 import pygame
 from pygame.sprite import Sprite
-from timer import Timer
 
 
 class Alien(Sprite):

@@ -18,7 +18,7 @@ class Settings:
         self.bullets_allowed = 10
 
         # Alien settings
-        self.fleet_drop_speed = 25
+        self.fleet_drop_speed = 10
 
         # How quickly the game speeds up
         self.speedup_scale = 1.1

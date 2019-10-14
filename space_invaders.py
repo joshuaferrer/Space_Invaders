@@ -37,10 +37,10 @@ def run_game():
     ufo = Group()
 
     # Create a fleet of aliens
-    gf.create_fleet(ai_settings, screen, ship, alien1, alien2, alien3)
+    gf.create_fleet(ai_settings=ai_settings, screen=screen, ship=ship, alien1=alien1, alien2=alien2, alien3=alien3)
 
     # Create bunkers
-    gf.create_bunker_row(ai_settings, screen, bunkers)
+    gf.create_bunker_row(ai_settings=ai_settings, screen=screen, bunkers=bunkers)
 
     # Set up sounds
     pygame.mixer.music.load('sounds/bg_music.wav')
@@ -51,17 +51,22 @@ def run_game():
         if not music_playing:
             pygame.mixer.music.play(-1, 0.0)
             music_playing = True
-        gf.check_events(ai_settings, screen, main_menu, stats, sb, play_button, high_scores, home_button,
-                        ship, alien1, alien2, alien3, bullets)
+        gf.check_events(ai_settings=ai_settings, screen=screen, main_menu=main_menu,
+                        stats=stats, sb=sb, play_button=play_button, high_scores=high_scores, home_button=home_button,
+                        ship=ship, alien1=alien1, alien2=alien2, alien3=alien3, bullets=bullets)
         if stats.game_active:
-            gf.create_ufo(ai_settings, screen, ufo)
+            gf.create_ufo(ai_settings=ai_settings, screen=screen, ufo=ufo)
             ship.update()
-            gf.update_bullets(ai_settings, screen, stats, sb, ship, alien1, alien2, alien3,
-                              bullets, bunkers, ufo)
-            gf.update_aliens(ai_settings, screen, stats, sb, ship, alien1, alien2, alien3, ufo, bullets, music_playing)
+            gf.update_bullets(ai_settings=ai_settings, screen=screen, stats=stats, sb=sb,
+                              ship=ship, alien1=alien1, alien2=alien2, alien3=alien3,
+                              bullets=bullets, bunkers=bunkers, ufo=ufo)
+            gf.update_aliens(ai_settings=ai_settings, screen=screen, stats=stats, sb=sb,
+                             ship=ship, alien1=alien1, alien2=alien2, alien3=alien3,
+                             ufo=ufo, bullets=bullets, music_playing=music_playing)
 
-        gf.update_screen(ai_settings, screen, stats, sb, ship, bunkers, alien1, alien2, alien3, ufo,
-                         bullets, main_menu, high_scores)
+        gf.update_screen(ai_settings=ai_settings, screen=screen, stats=stats, sb=sb, ship=ship,
+                         bunkers=bunkers, alien1=alien1, alien2=alien2, alien3=alien3, ufo=ufo,
+                         bullets=bullets, main_menu=main_menu, high_scores=high_scores)
 
 
 run_game()
